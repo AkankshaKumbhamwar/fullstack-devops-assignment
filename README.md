@@ -25,7 +25,7 @@ Configure Environment Variables:
 Copy .env.example to .env:cp .env.example .env
 
 
-Edit .env to set JWT_SECRET (e.g., a random string like mysecretkey123) and verify other settings:JWT_SECRET=your_jwt_secret_here
+JWT_SECRET=
 REDIS_HOST=redis
 REDIS_PORT=6379
 RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
