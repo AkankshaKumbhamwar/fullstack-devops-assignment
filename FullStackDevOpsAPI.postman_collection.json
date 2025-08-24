@@ -1,0 +1,175 @@
+{
+  "info": {
+    "_postman_id": "b1a2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "FullStackDevOpsAPI",
+    "description": "API documentation for the Full Stack + DevOps assignment. Includes user registration, login with JWT, and authenticated data retrieval with role-based access control.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"role\": \"user\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "register"]
+        },
+        "description": "Registers a new user. Role is optional (defaults to 'user'). Returns user ID on success."
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"role\": \"user\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/user/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["user", "register"]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "body": "{\n  \"message\": \"User registered\",\n  \"userId\": \"uuid-string\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Login User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "login"]
+        },
+        "description": "Authenticates a user and returns a JWT token."
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/user/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["user", "login"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"token\": \"jwt-token-string\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Data by ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/data/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["data", "1"]
+        },
+        "description": "Fetches data by ID. Requires JWT token. Admins can access any data; users can only access data they own."
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/data/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["data", "1"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"id\": \"1\",\n  \"content\": \"Sample Data 1\",\n  \"ownerId\": \"admin-user-id\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "jwt_token",
+      "value": "",
+      "description": "JWT token obtained from /user/login"
+    }
+  ]
+}
